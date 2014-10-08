@@ -138,14 +138,14 @@ def image_to_string(image, lang=None, boxes=False, config=None):
     if config is set, the config gets appended to the command.
         ex: config="-psm 6"
 
-    '''
+
     print image
     if len(image.split()) == 4:
         # In case we have 4 channels, lets discard the Alpha.
         # Kind of a hack, should fix in the future some time.
         r, g, b, a = image.split()
         image = Image.merge("RGB", (r, g, b))
-    
+    '''
     input_file_name = '%s.bmp' % tempnam()
     output_file_name_base = tempnam()
     if not boxes:
@@ -173,11 +173,14 @@ def image_to_string(image, lang=None, boxes=False, config=None):
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
+        #Akrita
+        #dummy path.Run the file readPytesser.py. Do not run this.
         filename = '/Volumes/PrivetDrive/Copy/UCincy/cchmc/MapNetwork/hello.jpg'
+        #~Akrita
         try:
             image = Image.open(filename)
-            image.load()
-            image.split()
+            image.load() #Akrita
+            image.split() #Akrita
             if len(image.split()) == 4:
                 # In case we have 4 channels, lets discard the Alpha.
                 # Kind of a hack, should fix in the future some time.
@@ -192,8 +195,8 @@ if __name__ == '__main__':
         filename = sys.argv[3]
         try:
             image = Image.open(filename)
-            image.load()
-            image.split()
+            image.load() #Akrita
+            image.split() #Akrita
         except IOError:
             sys.stderr.write('ERROR: Could not open file "%s"\n' % filename)
             exit(1)
