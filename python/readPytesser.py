@@ -9,7 +9,7 @@ def run_tess(input_file,output_path,node_no,image_chunk):
    
 
     try:
-        input_path = os.path.join(output_path,input_file)
+        input_path = os.path.join(output_path,input_file+'.jpg')
         output_path = os.path.join(output_path,'out',output_filename)
     
         im = Image.open(input_path)
