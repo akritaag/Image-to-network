@@ -6,26 +6,13 @@
 //  Copyright (c) 2014 Akrita Agarwal. All rights reserved.
 //
 
-/*
-#include <opencv2/opencv.hpp>
-
-int main(int argc, char *argv[])
-{
-    IplImage *img = cvCreateImage( cvSize(100,200), IPL_DEPTH_8U, 3);
-    cvNamedWindow("Hello World!", CV_WINDOW_AUTOSIZE);
-    cvShowImage("Hello World!", img);
-    cvWaitKey(0);
-    cvDestroyWindow("Hello World!");
-    cvReleaseImage(&img);
-    
-    return 0;
-}
-*/
-
 #include "opencv2/opencv.hpp"
 #include <string>
 #include <iostream>
-#include <cstdlib>
+//#include <cstdlib>
+#include<stdlib.h>
+#include <fstream>
+#include "node.h"
 
 std::vector<cv::Rect> detectLetters(cv::Mat img)
 {
@@ -34,7 +21,7 @@ std::vector<cv::Rect> detectLetters(cv::Mat img)
     cvtColor(img, img_gray, CV_BGR2GRAY);
     cv::Sobel(img_gray, img_sobel, CV_8U, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT);
     cv::threshold(img_sobel, img_threshold, 0, 255, CV_THRESH_OTSU+CV_THRESH_BINARY);
-    element = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 10) );
+    element = getStructuringElement(cv::MORPH_RECT, cv::Size(10, 15) );
     cv::morphologyEx(img_threshold, img_threshold, CV_MOP_CLOSE, element); //Does the trick
     std::vector< std::vector< cv::Point> > contours;
     cv::findContours(img_threshold, contours, 0, 1);
@@ -52,16 +39,12 @@ std::vector<cv::Rect> detectLetters(cv::Mat img)
     return boundRect;
 }
 
-class node
+bool ValidNodalText(char c)
 {
-    std::string data;
-
-};
-
-class graph
-{
-    
-};
+    if (isalnum(c) || c=='-' || c=='&' || c == '\n' || c == ' ')
+        return false;
+    return true;
+}
 
 int main(int argc,char** argv)
 {
@@ -69,34 +52,78 @@ int main(int argc,char** argv)
     std::string filename;
     std::cout<<"enter file name:";
     std::cin>>filename;
-    std::string filepath = "/Volumes/PrivetDrive/Copy/UCincy/cchmc/MapNetwork/images/";
-    std::string filename_path = filepath + filename + ".jpg";
-    cv::Mat image = cv::imread(filename_path);
-
-    //Detect
-    std::vector<cv::Rect> letterBBoxes=detectLetters(image);
-    
-    //Display
-    for(int i=0; i< letterBBoxes.size(); i++)
+    graph g;
+    std::string filepath = "/Volumes/PrivetDrive/Copy/UCincy/cchmc/MapNetwork/Image-to-network/cplusplus/images/";
+    if(g.isempty(filepath,filename))
     {
-        //std::cout<<letterBBoxes[i];
-        cv::Rect roi = letterBBoxes[i];
-        //cv::Mat roi = cv::Mat(image, imgroi);
-        cv::Mat img_roi(image, roi);
+        std::cout << "\n me! \n";
+        std::string filename_path = filepath + filename + ".jpg";
+        cv::Mat image = cv::imread(filename_path);
+
+        //Detect
+        std::vector<cv::Rect> letterBBoxes=detectLetters(image);
         
-        filename_path = filepath + "cpp_output/" + filename + "_" + std::to_string(i+1) + ".jpg";
-        cv::imwrite(filename_path, img_roi);
-        std::string tess_command = "tesseract " + filename_path + " " + filepath + "cpp_output/" + filename + ".txt";
-        //std::cout<<"\n"<<tess_command;
-        const char * tess = tess_command.c_str ();
+        //node* n = new node[int(letterBBoxes.size())];
+        std::cout <<"size:"<<(int)letterBBoxes.size();
+        node* n = (node*)malloc((int)letterBBoxes.size()*sizeof(node));
+
+        //Display
+        for(int i=0; i<letterBBoxes.size(); i++)
+        {
+            cv::Rect roi = letterBBoxes[i];
+            cv::Mat img_roi(image, roi);
+            
+            filename_path = filepath + "cpp_output/" + filename + "_" + std::to_string(i+1) + ".jpg";
+            cv::imwrite(filename_path, img_roi);
+            std::string outputpath = filepath + "cpp_output/" + filename;
+            //std::cout<<"\noutputpath: "<<outputpath<<"\n;
+            std::string tess_command = "/usr/local/bin/tesseract " + filename_path + " " + outputpath;
+            //std::string tess_command = "pwd";
+            //std::cout<<"\n"<<tess_command<<"\n";
+            const char * tess = tess_command.c_str ();
+           // std::cout<<"\npath: "<<filename_path<<"\n";
+            std::system(tess);
+            std::ifstream myfile (outputpath+".txt");
+            std::string str((std::istreambuf_iterator<char>(myfile)),
+                            std::istreambuf_iterator<char>());
+            
+            //cleaning the string -: erase-remove algorithm
+            str.erase(std::remove_if(str.begin(),str.end(),&ValidNodalText),str.end());
+            size_t ln = str.length() - 1;
+            
+            for(int j=0;j<=ln;j++)
+                if(str[j] == '\n')
+                    str[j] = ' ';
+
+            
+            //std::cout<<"\n"<< str <<" "<<roi.height<<" "<<roi.width<<" "<<roi.x<<" "<<roi.y<<"\n";
+            
+            if(str!="")
+            {
+                (n+i)->createnode(str,roi.height,roi.width,roi.x,roi.y);
+                //n[0].createnode(str,roi.height,roi.width,roi.x,roi.y);
+                
+                //draw rectangles
+                cv::rectangle(image,letterBBoxes[i],cv::Scalar(0,255,0),3,8,0);
+                filename_path = filepath + "cpp_output/" + filename + ".jpg";
+                //std::cout<<"\n"<<filename_path;
+                cv::imwrite( filename_path, image);
+            }
+            
+        }
         
-        std::system(tess);
-        
-        //draw rectangles
-        cv::rectangle(image,letterBBoxes[i],cv::Scalar(0,255,0),3,8,0);
-        filename_path = filepath + "cpp_output/" + filename + ".jpg";
-        //std::cout<<"\n"<<filename_path;
-        cv::imwrite( filename_path, image);
+        //ignore the warning for now.
+        if(g.creategraph(int(letterBBoxes.size()),n,filepath,filename) == false)
+            std::cout<<"error printing file.";
     }
+    
+    //load the graph here.
+    /*
+    for (int i = 0; i<g.getsize(); i++)
+    {
+        
+    }
+     */
+    
     return 0;
 }

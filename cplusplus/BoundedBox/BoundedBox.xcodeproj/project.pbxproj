@@ -54,6 +54,7 @@
 		306AEA7319EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEA4919EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */; };
 		306AEA7419EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEA4A19EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */; };
 		306AEA7519EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 306AEA4B19EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */; };
+		306AEA7819F00C16007ADB55 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306AEA7619F00C16007ADB55 /* node.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -117,6 +118,8 @@
 		306AEA4919EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_superres.2.4.9.dylib; path = ../../../../../../../usr/local/Cellar/opencv/2.4.9/lib/libopencv_superres.2.4.9.dylib; sourceTree = "<group>"; };
 		306AEA4A19EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_superres.2.4.9.dylib; path = ../../../../../../../usr/local/Cellar/opencv/2.4.9/lib/libopencv_superres.2.4.9.dylib; sourceTree = "<group>"; };
 		306AEA4B19EDABFD007ADB55 /* libopencv_superres.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_superres.2.4.9.dylib; path = ../../../../../../../usr/local/Cellar/opencv/2.4.9/lib/libopencv_superres.2.4.9.dylib; sourceTree = "<group>"; };
+		306AEA7619F00C16007ADB55 /* node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = node.cpp; sourceTree = "<group>"; };
+		306AEA7719F00C16007ADB55 /* node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = node.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +200,8 @@
 			isa = PBXGroup;
 			children = (
 				3044237219E1FF240020AD97 /* main.cpp */,
+				306AEA7619F00C16007ADB55 /* node.cpp */,
+				306AEA7719F00C16007ADB55 /* node.h */,
 			);
 			path = BoundedBox;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3044237319E1FF240020AD97 /* main.cpp in Sources */,
+				306AEA7819F00C16007ADB55 /* node.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
