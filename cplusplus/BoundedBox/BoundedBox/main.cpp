@@ -56,7 +56,7 @@ int main(int argc,char** argv)
     std::string filepath = "/Volumes/PrivetDrive/Copy/UCincy/cchmc/MapNetwork/Image-to-network/cplusplus/images/";
     if(g.isempty(filepath,filename))
     {
-        std::cout << "\n me! \n";
+        //std::cout << "\n me! \n";
         std::string filename_path = filepath + filename + ".jpg";
         cv::Mat image = cv::imread(filename_path);
 
@@ -76,52 +76,81 @@ int main(int argc,char** argv)
             filename_path = filepath + "cpp_output/" + filename + "_" + std::to_string(i+1) + ".jpg";
             cv::imwrite(filename_path, img_roi);
             std::string outputpath = filepath + "cpp_output/" + filename;
-            //std::cout<<"\noutputpath: "<<outputpath<<"\n;
             std::string tess_command = "/usr/local/bin/tesseract " + filename_path + " " + outputpath;
-            //std::string tess_command = "pwd";
-            //std::cout<<"\n"<<tess_command<<"\n";
             const char * tess = tess_command.c_str ();
-           // std::cout<<"\npath: "<<filename_path<<"\n";
             std::system(tess);
             std::ifstream myfile (outputpath+".txt");
             std::string str((std::istreambuf_iterator<char>(myfile)),
                             std::istreambuf_iterator<char>());
             
-            //cleaning the string -: erase-remove algorithm
+            //cleaning the string :- erase-remove algorithm
             str.erase(std::remove_if(str.begin(),str.end(),&ValidNodalText),str.end());
             size_t ln = str.length() - 1;
             
             for(int j=0;j<=ln;j++)
                 if(str[j] == '\n')
                     str[j] = ' ';
-
-            
-            //std::cout<<"\n"<< str <<" "<<roi.height<<" "<<roi.width<<" "<<roi.x<<" "<<roi.y<<"\n";
             
             if(str!="")
             {
                 (n+i)->createnode(str,roi.height,roi.width,roi.x,roi.y);
-                //n[0].createnode(str,roi.height,roi.width,roi.x,roi.y);
                 
                 //draw rectangles
                 cv::rectangle(image,letterBBoxes[i],cv::Scalar(0,255,0),3,8,0);
                 filename_path = filepath + "cpp_output/" + filename + ".jpg";
-                //std::cout<<"\n"<<filename_path;
                 cv::imwrite( filename_path, image);
             }
-            
+           
         }
         
-        //ignore the warning for now.
+        //ignore the warning for now. Create & save the graph
         if(g.creategraph(int(letterBBoxes.size()),n,filepath,filename) == false)
             std::cout<<"error printing file.";
+        
+        //removing the text area from image :- grab-cut algorithm
+        for(int i=0; i<letterBBoxes.size(); i++)
+        {
+            cv::Rect rectangle = letterBBoxes[i];
+            filename_path = filepath + "cpp_output/" + filename + "grab" ;
+            
+            if(i==0)
+            {
+                std::cout<<"here?";
+                imwrite(filename_path+".jpg",image);
+            }
+            
+            //std::cout<<"or here?"<<(char)i<<" "<<filename_path+".jpg";
+            cv::Mat image = cv::imread(filename_path+".jpg");
+            
+            cv::Mat result; // segmentation result (4 possible values)
+            cv::Mat bgModel,fgModel; // the models (internally used)
+            
+            // GrabCut segmentation
+            cv::grabCut(image,    // input image
+                        result,   // segmentation result
+                        rectangle,// rectangle containing foreground
+                        bgModel,fgModel, // models
+                        1,        // number of iterations
+                        cv::GC_INIT_WITH_RECT); // use rectangle
+            
+            // Get the pixels marked as likely foreground
+            cv::compare(result,cv::GC_PR_FGD,result,cv::CMP_EQ);
+            // Generate output image
+            
+            cv::Mat background(image.size(),CV_8UC3,cv::Scalar(255,255,255));
+            image.copyTo(background,~result);
+            
+            imwrite(filename_path+".jpg",background);
+            
+        }
+    
     }
     
     //load the graph here.
     /*
     for (int i = 0; i<g.getsize(); i++)
     {
-        
+     
     }
      */
     

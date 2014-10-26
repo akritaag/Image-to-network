@@ -16,7 +16,6 @@
 void node::createnode(std::string d,int h,int w,int x,int y)
 {
     std::cout<<d;
-    //std::cout<<this->data;
     this->data.assign(d);
     this->height = h;
     this->width = w;
@@ -52,14 +51,12 @@ bool graph::creategraph(int size,node* n,std::string filepath,std::string filena
             for(int i=0;i<size;i++)
             {
                 try {
-                    //(n+i)->data = (n+i)->data;
                     myfile <<(n+i)->data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
                 }
                 catch(cv::Exception e)
                 {
                     std::cout<<"something went wrong"<<&e;
                 }
-                
             }
             
         }

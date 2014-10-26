@@ -1,9 +1,0 @@
-Sox2 Nanog Oct4 Lin28
-
-V
-
-Cyc|inD1/CDK4 miR302 miR371 miR290 |et7
-Pluripotency A Differentiation
-
- @@ :> %
-
