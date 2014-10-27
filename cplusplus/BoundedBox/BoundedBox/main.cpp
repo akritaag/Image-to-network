@@ -9,8 +9,8 @@
 #include "opencv2/opencv.hpp"
 #include <string>
 #include <iostream>
-//#include <cstdlib>
-#include<stdlib.h>
+#include <cstdlib>
+//#include<stdlib.h>
 #include <fstream>
 #include "node.h"
 
@@ -27,12 +27,14 @@ std::vector<cv::Rect> detectLetters(cv::Mat img)
     cv::findContours(img_threshold, contours, 0, 1);
     std::vector<std::vector<cv::Point> > contours_poly( contours.size() );
     for( int i = 0; i < contours.size(); i++ )
-    if (contours[i].size()>100) //&& contours[i].size()<2000)
     {
-        cv::approxPolyDP( cv::Mat(contours[i]), contours_poly[i], 3, true );
-        cv::Rect appRect( boundingRect( cv::Mat(contours_poly[i]) ));
-        if (appRect.width>appRect.height)
-        boundRect.push_back(appRect);
+        if (contours[i].size()>100) //&& contours[i].size()<2000)
+        {
+            cv::approxPolyDP( cv::Mat(contours[i]), contours_poly[i], 3, true );
+            cv::Rect appRect( boundingRect( cv::Mat(contours_poly[i]) ));
+            if (appRect.width>appRect.height)
+            boundRect.push_back(appRect);
+        }
     }
     
 //boundrECT.
@@ -63,7 +65,6 @@ int main(int argc,char** argv)
         //Detect
         std::vector<cv::Rect> letterBBoxes=detectLetters(image);
         
-        //node* n = new node[int(letterBBoxes.size())];
         std::cout <<"size:"<<(int)letterBBoxes.size();
         node* n = (node*)malloc((int)letterBBoxes.size()*sizeof(node));
 
@@ -88,15 +89,19 @@ int main(int argc,char** argv)
             size_t ln = str.length() - 1;
             
             for(int j=0;j<=ln;j++)
+            {
+               // std::cout<<str[j];
                 if(str[j] == '\n')
                     str[j] = ' ';
+            }
             
             if(str!="")
             {
                 (n+i)->createnode(str,roi.height,roi.width,roi.x,roi.y);
                 
                 //draw rectangles
-                cv::rectangle(image,letterBBoxes[i],cv::Scalar(0,255,0),3,8,0);
+                //cv::rectangle(image,letterBBoxes[i],cv::Scalar(255,255,255),3,8,0);
+                cv::rectangle(image,letterBBoxes[i],cv::Scalar(255,255,255),CV_FILLED);
                 filename_path = filepath + "cpp_output/" + filename + ".jpg";
                 cv::imwrite( filename_path, image);
             }
@@ -106,43 +111,6 @@ int main(int argc,char** argv)
         //ignore the warning for now. Create & save the graph
         if(g.creategraph(int(letterBBoxes.size()),n,filepath,filename) == false)
             std::cout<<"error printing file.";
-        
-        //removing the text area from image :- grab-cut algorithm
-        for(int i=0; i<letterBBoxes.size(); i++)
-        {
-            cv::Rect rectangle = letterBBoxes[i];
-            filename_path = filepath + "cpp_output/" + filename + "grab" ;
-            
-            if(i==0)
-            {
-                std::cout<<"here?";
-                imwrite(filename_path+".jpg",image);
-            }
-            
-            //std::cout<<"or here?"<<(char)i<<" "<<filename_path+".jpg";
-            cv::Mat image = cv::imread(filename_path+".jpg");
-            
-            cv::Mat result; // segmentation result (4 possible values)
-            cv::Mat bgModel,fgModel; // the models (internally used)
-            
-            // GrabCut segmentation
-            cv::grabCut(image,    // input image
-                        result,   // segmentation result
-                        rectangle,// rectangle containing foreground
-                        bgModel,fgModel, // models
-                        1,        // number of iterations
-                        cv::GC_INIT_WITH_RECT); // use rectangle
-            
-            // Get the pixels marked as likely foreground
-            cv::compare(result,cv::GC_PR_FGD,result,cv::CMP_EQ);
-            // Generate output image
-            
-            cv::Mat background(image.size(),CV_8UC3,cv::Scalar(255,255,255));
-            image.copyTo(background,~result);
-            
-            imwrite(filename_path+".jpg",background);
-            
-        }
     
     }
     
