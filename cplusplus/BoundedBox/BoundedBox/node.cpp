@@ -12,10 +12,12 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
+#include <vector>
 
+using namespace std;
+using namespace cv;
 void node::createnode(std::string d,int h,int w,int x,int y)
 {
-    std::cout<<d;
     this->data.assign(d);
     this->height = h;
     this->width = w;
@@ -39,7 +41,7 @@ bool graph::isempty(std::string filepath,std::string filename)
 }
     
 //write the graph to file
-bool graph::creategraph(int size,node* n,std::string filepath,std::string filename)
+bool graph::creategraph(int size,vector<node> n,std::string filepath,std::string filename)
 {
     //std::cout<<"\n ssup x\n!";
     this->size = size;
@@ -51,7 +53,7 @@ bool graph::creategraph(int size,node* n,std::string filepath,std::string filena
             for(int i=0;i<size;i++)
             {
                 try {
-                    myfile <<(n+i)->data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
+                    myfile <<n[i].data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
                 }
                 catch(cv::Exception e)
                 {
@@ -60,14 +62,15 @@ bool graph::creategraph(int size,node* n,std::string filepath,std::string filena
             }
             
         }
+        myfile.close();
         return true;
     }
     return false;
 }
     
-node* graph::loadgraph(std::string filepath,std::string filename)
+void graph::loadgraph(std::string filepath,std::string filename)
 {
-    node* n;
+    //node* n;
     /*
     try
     {
@@ -81,7 +84,7 @@ node* graph::loadgraph(std::string filepath,std::string filename)
         std::cout<< &e;
     }
      */
-    return n;
+    //return NULL;
 }
 
 int graph::getsize(void)
