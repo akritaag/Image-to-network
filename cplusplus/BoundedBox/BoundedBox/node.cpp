@@ -43,7 +43,6 @@ bool graph::isempty(std::string filepath,std::string filename)
 //write the graph to file
 bool graph::creategraph(int size,vector<node> n,std::string filepath,std::string filename)
 {
-    //std::cout<<"\n ssup x\n!";
     this->size = size;
     if (this->isempty(filepath,filename))
     {
@@ -53,7 +52,8 @@ bool graph::creategraph(int size,vector<node> n,std::string filepath,std::string
             for(int i=0;i<size;i++)
             {
                 try {
-                    myfile <<n[i].data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
+                    //myfile <<n[i].data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
+                    myfile<<n[i].data<<","<<n[i].height<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
                 }
                 catch(cv::Exception e)
                 {

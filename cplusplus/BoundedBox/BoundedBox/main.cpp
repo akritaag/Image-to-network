@@ -118,10 +118,12 @@ int main(int argc,char** argv)
         vector<Rect> letterBBoxes=detectLetters(image);
         
         int newsize = (int)letterBBoxes.size();
-        vector<node> n(letterBBoxes.size());
+        vector<node> n(newsize);
 
         //Display
-        for(int i=0; i<letterBBoxes.size(); i++)
+        int i=0,j=0;
+
+        for(i=0; i<newsize;i++)
         {
             Rect roi = letterBBoxes[i];
             Mat img_roi(image, roi);
@@ -138,30 +140,28 @@ int main(int argc,char** argv)
             
             //cleaning the string :- erase-remove algorithm
             str.erase(remove_if(str.begin(),str.end(),&ValidNodalText),str.end());
-            const  string newline = "\n";
             
             str = replaceAll(str, "\n", " ");
             str = reduce(str);
         
             if(str!="")
             {
-                n[i].createnode(str,roi.height,roi.width,roi.x,roi.y);
+                n[j].createnode(str,roi.height,roi.width,roi.x,roi.y);
                 //draw rectangles
                 //rectangle(image,letterBBoxes[i],Scalar(255,255,255),3,8,0);
                 rectangle(image,letterBBoxes[i],Scalar(255,255,255),CV_FILLED);
                 filename_path = filepath + "cpp_output/" + filename + ".jpg";
                 imwrite( filename_path, image);
-            }
-            else
-            {
-                newsize--;
+                j++;
             }
         }
+        
+        n.erase(n.begin()+j,n.end());
         
         //ignore the warning for now. Create & save the graph
         try
         {
-            if(g.creategraph(newsize,n,filepath,filename) == false)
+            if(g.creategraph((int)n.size(),n,filepath,filename) == false)
                 cout<<"error printing file.";
         }
         catch(Exception e)

@@ -1,6 +1,6 @@
 current issues-
 
-1. vector works but output is still not very good.
-2. something wrong with file printing.
-3. tesseract OCR detection needs work.
-4. read up on GPML files.
+[x] vector works but output is still not very good.
+[x] something wrong with file printing.
+[ ] tesseract OCR detection needs work.
+[ ] read up on GPML files.

@@ -1,12 +1,12 @@
-,0,0,0,0
-,0,0,0,0
-target pathways,56,117,928,482
-Wnt,21,45,482,456
-,0,0,0,0
-Raldh 1 Cyp26a 1,57,103,121,393
-Fgf8,26,53,626,372
-,0,0,0,0
-,0,0,0,0
-,0,0,0,0
-,0,0,0,0
-,0,0,0,0
+target pathways,56117,928,482
+Wnt,2145,482,456
+Raldh 1 Cyp26a 1,57103,121,393
+Fgf8,2653,626,372
+Dsh1,2361,264,288
+Retinoic Acid RA,65126,9,267
+Fibroblast Growth Factor F90,101200,646,237
+Tcf3 beta-arrestin 1,58181,154,215
+VInt,3071,452,164
+Vingless,30124,316,164
+Morphogen target pathways,89135,914,152
+Bone morphogenetic protein BMP,150186,326,1
