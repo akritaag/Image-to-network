@@ -1,12 +1,19 @@
-target pathways,56117,928,482
-Wnt,2145,482,456
-Raldh 1 Cyp26a 1,57103,121,393
-Fgf8,2653,626,372
-Dsh1,2361,264,288
-Retinoic Acid RA,65126,9,267
-Fibroblast Growth Factor F90,101200,646,237
-Tcf3 beta-arrestin 1,58181,154,215
-VInt,3071,452,164
-Vingless,30124,316,164
-Morphogen target pathways,89135,914,152
-Bone morphogenetic protein BMP,150186,326,1
+Hox genes,29,146,335,552
+pathways,26,122,927,512
+target,25,71,952,482
+Cypzs-1,26,103,120,424
+Fgf8,26,54,625,372
+12,34,54,412,365
+Acid RA,31,135,1,302
+Dsh1 Dsh2,23,129,262,288
+Growth Factor,24,201,644,273
+Retinoic,24,115,9,267
+beta-arrestin 1,21,181,153,252
+lc3 Lef1,23,105,286,215
+pathways,27,122,927,214
+target,26,71,952,184
+Wingless Wnt,30,209,314,164
+Morphogen,27,136,913,152
+protein BMP,27,169,336,67
+morphogenetic,27,186,325,36
+Bone,21,63,387,6

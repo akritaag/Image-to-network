@@ -11,6 +11,7 @@ Proposed steps :-
   - [ ] seek help from semantic concept of data. 
 - [x]  Process the nodes and store them in a graph.
 - [ ] detect arrowheads - arrows(->) & inhibitors(-|) .
+        proposed methods - image moments, contours, SURF algorithm
 - [ ] introduce links in graphs by detecting direction of arrows.
 - [ ] create GPML files.
 - [ ] process GPML files in s/w like cytoscape.

@@ -53,7 +53,7 @@ bool graph::creategraph(int size,vector<node> n,std::string filepath,std::string
             {
                 try {
                     //myfile <<n[i].data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
-                    myfile<<n[i].data<<","<<n[i].height<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
+                    myfile<<n[i].data<<","<<n[i].height<<","<<n[i].width<<","<<n[i].x<<","<<n[i].y<<"\n";
                 }
                 catch(cv::Exception e)
                 {
