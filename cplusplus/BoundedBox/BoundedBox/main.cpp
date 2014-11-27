@@ -19,7 +19,6 @@
 using namespace  std;
 using namespace cv;
 
-
 vector<Rect> detectLetters(Mat img)
 {
     vector<Rect> boundRect;
@@ -28,7 +27,7 @@ vector<Rect> detectLetters(Mat img)
     cvtColor(img, img_gray, CV_BGR2GRAY);
     Sobel(img_gray, img_sobel, CV_8U, 1, 0, 3, 1, 0, BORDER_DEFAULT);
     threshold(img_sobel, img_threshold, 0, 255, CV_THRESH_BINARY+CV_THRESH_OTSU);
-    element = getStructuringElement(MORPH_RECT, Size(13, 5) ); //Size(10, 3)
+    element = getStructuringElement(MORPH_RECT, Size(10, 3) ); //Size(10, 3)
     morphologyEx(img_threshold, img_threshold, CV_MOP_CLOSE, element); //Does the trick
     vector< vector<Point> > contours;
     findContours(img_threshold, contours, 0, 1);
@@ -39,7 +38,7 @@ vector<Rect> detectLetters(Mat img)
         {
             approxPolyDP( Mat(contours[i]), contours_poly[i], 3, true );
             Rect appRect( boundingRect( Mat(contours_poly[i]) ));
-            
+            cout<<"contour : "<<i<<" w:"<<appRect.width<<" h:"<< appRect.width;
             if (appRect.width>appRect.height)
                 boundRect.push_back(appRect);
         }
@@ -89,7 +88,6 @@ int main(int argc,char** argv)
             GaussianBlur(imageMat, imageMat, Size(3, 3), 0);
             adaptiveThreshold(imageMat, imageMat, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 5, 4);
             img_roi = imageMat;
-//            cout<<img_roi;
             filename_path = filepath + "cpp_output/" + filename + "_" + to_string(i+1) + ".jpg";
             imwrite(filename_path, img_roi);
             string outputpath = filepath + "cpp_output/" + filename;
@@ -131,6 +129,7 @@ int main(int argc,char** argv)
             cout<<&e;
         }
     }
+    //11.29 8.47
     
     //load the graph here.
     /*
@@ -146,7 +145,8 @@ int main(int argc,char** argv)
     Mat scene = imread(scene_path);
     //cout<<"scene:"<<scene<<"\n";
     //imshow("src", scene);
-   // cout<<"\n worked? "<<detectshape(scene);
+    cout<<"\n worked? ";
+    detectshape(scene);
     
     return 0;
 }

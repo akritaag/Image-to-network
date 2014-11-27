@@ -50,7 +50,7 @@ bool detectshape(Mat src)
     if (src.empty())
         return -1;
     //THRESH_TOZERO
-    cout<<src;
+    //cout<<src;
     
     //convert to grayscale
     Mat gray, src_gray;
@@ -73,7 +73,7 @@ bool detectshape(Mat src)
     
     //we'll put the labels in this destination image
     Mat dst = src.clone();
-    cout<<"\n contour size:"<<contours.size();
+    //cout<<"\n contour size:"<<contours.size();
     
     for(int i=0;i<contours.size();i++)
     {
@@ -88,7 +88,7 @@ bool detectshape(Mat src)
         int a = (int)approx.size();
         if (a!= 0)
         {
-            cout<<"\n contour no. :"<<i+1<<" size: "<<to_string(a);
+            //cout<<"\n contour no. :"<<i+1<<" size: "<<to_string(a);
             setLabel(dst, to_string(a), contours[i]);
         }
         
@@ -150,7 +150,7 @@ bool detectshape(Mat src)
          */
     }
     
-    cout<<"ps? "<<contours.size();
+    //cout<<"ps? "<<contours.size();
     imwrite("/Volumes/PrivetDrive/Copy/UCincy/cchmc/MapNetwork/Image-to-network/cplusplus/images/cpp_output/dest.jpg",dst);
     return 0;
     
